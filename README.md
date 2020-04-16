@@ -8,3 +8,4 @@ find weather information around the world
 ### step 4. npm run dev 
 ### it will take to you to http://localhost:8080/ nou enjoi
 maintenance @hardikhere
+## NOTE https is not supported use http with localhost
