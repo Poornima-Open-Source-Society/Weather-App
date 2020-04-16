@@ -6,4 +6,5 @@ find weather information around the world
 ### step 2. git clone to your local pc
 ### step 3. npm install
 ### step 4. npm run dev 
+### it will take to you to http://localhost:8080/ nou enjoi
 maintenance @hardikhere
