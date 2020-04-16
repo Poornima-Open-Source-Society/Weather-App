@@ -5,8 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "webpack-dev-server --mode development",
-    "build": "webpack --mode production"
+    "start": "webpack-dev-server --mode development --open",
+    "build": "webpack --mode production",
+    "dev":"webpack-dev-server --mode development"
   },
   "author": "hardik,bhanu",
   "license": "ISC",
@@ -15,6 +16,7 @@
     "axios": "^0.19.2",
     "babel-loader": "^8.1.0",
     "babel-polyfill": "^6.26.0"
+    
   },
   "devDependencies": {
     "@babel/cli": "^7.8.4",
@@ -23,6 +25,7 @@
     "html-webpack-plugin": "^4.2.0",
     "webpack": "^4.42.1",
     "webpack-cli": "^3.3.11",
-    "webpack-dev-server": "^3.10.3"
+    "webpack-dev-server": "^3.10.3",
+    "babel-preset-env": "^1.7.0"
   }
 }
