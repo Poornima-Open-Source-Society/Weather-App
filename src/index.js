@@ -1,21 +1,23 @@
 var axios =require('axios');
+
  class Search {
     constructor(query) {
         this.query = query;
     }
-
     async getResults() {
-      // const link = `api.openweathermap.org/data/2.5/weather?q=${this.query}&appid=`;
-       var apiKey = "f810e1f4c0a0b046c1c42fb88130c7c9";
-       var test =`http://api.weatherstack.com/current?access_key=${apiKey}&query=${this.query}`;
+       
+        var key2 = '3907c6dcd96299a0467c7c3404638c4f';
+         var test2=`https://api.openweathermap.org/data/2.5/weather?q=${this.query}&appid=${key2}`;
+      // var apiKey = "f810e1f4c0a0b046c1c42fb88130c7c9";
+      // var test =`http://api.weatherstack.com/current?access_key=${apiKey}&query=${this.query}`;
         try {
-            const response = await axios(test);
+            const response = await axios(test2);
             this.result = response;
             return this.result;
+            console.log(this.result);
         } catch (error) {
             console.log(error);
-        }
-        
+        }     
     }
 }
 const ids={
@@ -29,26 +31,23 @@ const ids={
     time:document.querySelector("#time"),
     dayNight:document.querySelector("#day-night"),
     temp:document.querySelector("#temprature"),
-    vis:document.querySelector("#visibility")
+    vis:document.querySelector("#visibility"),
+    icon:document.querySelector(".icon"),
+    desc:document.querySelector("#desc")
 }
 const viewResult=(result)=>{
-    var r = result;
-    const request =r.data.request;
-    const location = r.data.location;
-    const current = r.data.current;
-    ids.city.textContent =request.query;
-    ids.cityLoc.textContent=location.country+' '+location.region+' lat-'+location.lat+' lon-'+location.lon;
-    ids.windSpeed.textContent = 'wind speed-'+current.wind_speed; 
-    ids.windDeg.textContent = 'wind degree-'+current.wind_degree;
-    ids.time.textContent = 'time -'+current.observation_time;
-    ids.humidity.textContent ='humidity -'+current.humidity;
-    ids.temp.textContent = 'temprature -'+current.temperature+'deg C';
-    var day ;
-    if(current.is_day==true)day="day";
-    else day = "night";
-    ids.dayNight.textContent = day;
-    ids.vis.textContent = 'visibility-'+current.visibility;
-    console.log(r.data.location);
+   const main = result.data.main;
+   const data = result.data;
+   const coords = result.data.coord;
+   ids.temp.textContent = 'temprature -'+main.temp+'deg k';
+   ids.vis.textContent = 'visibility-'+ data.visibility;
+   ids.windSpeed.textContent = 'wind speed-'+ data.wind.speed;
+   ids.cityLoc.textContent = 'longitute-'+coords.lon + 'latitude -'+coords.lat;
+   ids.humidity.textContent = 'humidity-'+main.humidity;
+  // ids.icon.setAttribute('src','./icons/'+data.weather[0].icon);
+   ids.desc.textContent = data.weather[0].main +' '+ data.weather[0].description;
+   ids.city.textContent = data.name;
+   ids.cityName.value = '';
 }
 
 async function newResult(e) {
@@ -58,7 +57,6 @@ async function newResult(e) {
     var result = await s.getResults();
     console.log(result);
     viewResult(result);
-   
 }
 ids.myForm.addEventListener('submit',newResult);
 
