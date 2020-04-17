@@ -59,5 +59,8 @@ async function newResult(e) {
     viewResult(result);
 }
 ids.myForm.addEventListener('submit',newResult);
+//window.onload = (e)=>{
+  // newResult(e);
+//}
 
 
