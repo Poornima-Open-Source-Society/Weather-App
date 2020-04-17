@@ -2,6 +2,8 @@
 <html>
 <head>
 	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<link href="https://fonts.googleapis.com/css2?family=Julius+Sans+One&family=Montserrat:wght@100&family=Open+Sans&display=swap" rel="stylesheet">
+	<script src="https://kit.fontawesome.com/adbe6e941e.js" crossorigin="anonymous"></script>
 	<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"> 
 	<title></title>
 </head>
@@ -9,25 +11,29 @@
 <div class="box">
 	 <form id="myForm">
       <input type="text" id ="city-name" placeholder="Enter city name">
-     <input type="submit">
+      <span id="search">
+      <i class="fas fa-search"></i>
+     </span> 
      </form>
 	<div id ="data-box">
-		<div id ="head">
+		
+		  <img src="" class="icon">
 		   <p id="city"></p>
+		   
+		   <p id="desc"></p>
+		   <p id="temprature"></p>
 		   <p id="city-location"></p>
-	    </div>
-	    <div>
+	    
 	    	<p id="time"></p>
-	    	<p id="temprature"></p>
-	    	<img src="" class="icon">
+	    	
+	    	
 	    	<p id="weather-description"></p>
 	    	<p id="wind-speed"></p>
 	    	<p id="wind-degree"></p>
 	    	<p id="humidity"></p>
 	    	<p id="day-night"></p>
 	    	<p id="visibility"></p>
-	    	<p id="desc"></p>
-	    </div>
+	    	
 	</div>
 </div>	
 </body>

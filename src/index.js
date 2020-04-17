@@ -33,19 +33,21 @@ const ids={
     temp:document.querySelector("#temprature"),
     vis:document.querySelector("#visibility"),
     icon:document.querySelector(".icon"),
-    desc:document.querySelector("#desc")
+    desc:document.querySelector("#desc"),
+    search:document.querySelector("#search")
 }
 const viewResult=(result)=>{
    const main = result.data.main;
    const data = result.data;
    const coords = result.data.coord;
-   ids.temp.textContent = 'temprature -'+main.temp+'deg k';
+    var t = parseInt(eval(main.temp +'- 273.15'));
+   ids.temp.textContent = t.toString()+'°C';
    ids.vis.textContent = 'visibility-'+ data.visibility;
    ids.windSpeed.textContent = 'wind speed-'+ data.wind.speed;
    ids.cityLoc.textContent = 'longitute-'+coords.lon + 'latitude -'+coords.lat;
    ids.humidity.textContent = 'humidity-'+main.humidity;
-  // ids.icon.setAttribute('src','./icons/'+data.weather[0].icon);
-   ids.desc.textContent = data.weather[0].main +' '+ data.weather[0].description;
+  ids.icon.setAttribute('src','icons/'+data.weather[0].icon.toString()+'.png');
+   ids.desc.textContent =  data.weather[0].description.toUpperCase();
    ids.city.textContent = data.name;
    ids.cityName.value = '';
 }
@@ -53,12 +55,13 @@ const viewResult=(result)=>{
 async function newResult(e) {
     e.preventDefault();
     var city = ids.cityName.value;
+    if(city==='' || city===null)alert('please enter city name');
     var s = new Search(city);
     var result = await s.getResults();
     console.log(result);
     viewResult(result);
 }
-ids.myForm.addEventListener('submit',newResult);
+ids.search.addEventListener('click',newResult);
 //window.onload = (e)=>{
   // newResult(e);
 //}
