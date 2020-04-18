@@ -1,5 +1,9 @@
 var axios =require('axios');
-
+const CancelToken = axios.CancelToken;
+var clear = ()=>{
+   ids.cityName.value = '';
+   document.getElementById("loader").style.display = "none";
+};
  class Search {
     constructor(query) {
         this.query = query;
@@ -12,14 +16,20 @@ var axios =require('axios');
       // var test =`http://api.weatherstack.com/current?access_key=${apiKey}&query=${this.query}`;
         try {
             const response = await axios(test2);
+            console.log(response);
             this.result = response;
             return this.result;
             console.log(this.result);
         } catch (error) {
-            console.log(error);
+            console.log(error.response);
+            if(error.response.data.cod=="404"){
+              alert('city not found');
+              clear();
+            }
         }     
     }
 }
+
 const ids={
     cityName:document.querySelector("#city-name"),
     city:document.querySelector("#city"),
@@ -49,11 +59,12 @@ const viewResult=(result)=>{
   ids.icon.setAttribute('src','icons/'+data.weather[0].icon.toString()+'.png');
    ids.desc.textContent =  data.weather[0].description.toUpperCase();
    ids.city.textContent = data.name;
-   ids.cityName.value = '';
+   clear();
 }
 
 async function newResult(e) {
     e.preventDefault();
+     document.getElementById("loader").style.display = "block";
     var city = ids.cityName.value;
     if(city==='' || city===null)alert('please enter city name');
     var s = new Search(city);
