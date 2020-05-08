@@ -8,7 +8,7 @@ var clear = ()=>{
     constructor(query) {
         this.query = query;
     }
-    async getResults() {
+    async getBasicResults() {
        
         var key2 = '3907c6dcd96299a0467c7c3404638c4f';
          var test2=`https://api.openweathermap.org/data/2.5/weather?q=${this.query}&appid=${key2}`;
@@ -28,6 +28,22 @@ var clear = ()=>{
             }
         }     
     }
+    async getAdvanceResults (){
+        //"http://dataservice.accuweather.com/locations/v1/cities/search?apikey=%09xInxGKNLoFjaVAGiZvh17aZZLwIfb0n7&q=jaipur&details=true"
+        var key = 'xInxGKNLoFjaVAGiZvh17aZZLwIfb0n7';
+         var test=`http://dataservice.accuweather.com/locations/v1/cities/search?apikey=%09${key}&q=${this.query}`;
+        try {
+            const response = await axios(test);
+            this.citykey = response.data[0].Key;
+            var res2 =`http://dataservice.accuweather.com/forecasts/v1/daily/5day/${this.citykey}?apikey=${key}&details=true`;      
+            const response2 = await axios(res2);
+            this.result = response2.data.DailyForecasts;
+            return this.result;
+        } catch (error) {
+            console.log(error);
+        }     
+
+    }
 }
 
 const ids={
@@ -44,7 +60,8 @@ const ids={
     vis:document.querySelector("#visibility"),
     icon:document.querySelector(".icon"),
     desc:document.querySelector("#desc"),
-    search:document.querySelector("#search")
+    search:document.querySelector("#search"),
+    forecast:document.querySelector("#forecast")
 }
 const viewResult=(result)=>{
    const main = result.data.main;
@@ -61,6 +78,9 @@ const viewResult=(result)=>{
    ids.city.textContent = data.name;
    clear();
 }
+const viewAdvance=(res)=>{
+   ids.forecast.textContent =JSON.stringify(res);
+};
 
 async function newResult(e) {
     e.preventDefault();
@@ -68,9 +88,11 @@ async function newResult(e) {
     var city = ids.cityName.value;
     if(city==='' || city===null)alert('please enter city name');
     var s = new Search(city);
-    var result = await s.getResults();
-    console.log(result);
+    var result = await s.getBasicResults();
     viewResult(result);
+    var AdvancedResult = await s.getAdvanceResults();
+    viewAdvance(AdvancedResult);
+    
 }
 ids.search.addEventListener('click',newResult);
 //window.onload = (e)=>{
