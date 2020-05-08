@@ -138,3 +138,8 @@ body {
   display: none;
   text-align: center;
 }
+.card{
+  position: absolute;
+  left:90px;
+  right: 90px;
+}

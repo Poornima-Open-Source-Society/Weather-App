@@ -61,7 +61,7 @@ const ids={
     icon:document.querySelector(".icon"),
     desc:document.querySelector("#desc"),
     search:document.querySelector("#search"),
-    forecast:document.querySelector("#forecast")
+    forecast:document.querySelector(".card")
 }
 const viewResult=(result)=>{
    const main = result.data.main;
@@ -79,7 +79,18 @@ const viewResult=(result)=>{
    clear();
 }
 const viewAdvance=(res)=>{
-   ids.forecast.textContent =JSON.stringify(res);
+    var inject  = `<div class="card-header">
+    5 days forecaste will be here 
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">Special title treatment</h5>
+    <p class="card-text">${res[0].Day.LongPhrase}</p>
+    <a href="#" class="btn btn-primary">Go somewhere</a>
+  </div>
+  <div class="card-footer text-muted">
+    ${res[0].Date}
+  </div>`;
+   ids.forecast.innerHTML = inject;
 };
 
 async function newResult(e) {
@@ -92,6 +103,7 @@ async function newResult(e) {
     viewResult(result);
     var AdvancedResult = await s.getAdvanceResults();
     viewAdvance(AdvancedResult);
+    console.log(AdvancedResult);
     
 }
 ids.search.addEventListener('click',newResult);
