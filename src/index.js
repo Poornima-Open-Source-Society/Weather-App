@@ -27,6 +27,7 @@ const clearBack=(s)=>{
   else ids.prev.style.display = "";
 };
 const viewAdvance=(res,daynum)=>{
+  ids.datacard.style.display = "";
   if(daynum ===1 || daynum<1)clearBack(true);
   else clearBack(false);
   ids.title.textContent = res[daynum].Day.ShortPhrase;
