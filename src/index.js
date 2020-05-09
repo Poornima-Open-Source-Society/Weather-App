@@ -1,35 +1,12 @@
 var axios =require('axios');
-const CancelToken = axios.CancelToken;
-var clear = ()=>{
-   ids.cityName.value = '';
-   document.getElementById("loader").style.display = "none";
-};
- class Search {
+import ids from './ids';
+var dayval=1;
+
+class Search {
     constructor(query) {
         this.query = query;
     }
-    async getBasicResults() {
-       
-        var key2 = '3907c6dcd96299a0467c7c3404638c4f';
-         var test2=`https://api.openweathermap.org/data/2.5/weather?q=${this.query}&appid=${key2}`;
-      // var apiKey = "f810e1f4c0a0b046c1c42fb88130c7c9";
-      // var test =`http://api.weatherstack.com/current?access_key=${apiKey}&query=${this.query}`;
-        try {
-            const response = await axios(test2);
-            console.log(response);
-            this.result = response;
-            return this.result;
-            console.log(this.result);
-        } catch (error) {
-            console.log(error.response);
-            if(error.response.data.cod=="404"){
-              alert('city not found');
-              clear();
-            }
-        }     
-    }
     async getAdvanceResults (){
-        //"http://dataservice.accuweather.com/locations/v1/cities/search?apikey=%09xInxGKNLoFjaVAGiZvh17aZZLwIfb0n7&q=jaipur&details=true"
         var key = 'xInxGKNLoFjaVAGiZvh17aZZLwIfb0n7';
          var test=`http://dataservice.accuweather.com/locations/v1/cities/search?apikey=%09${key}&q=${this.query}`;
         try {
@@ -45,70 +22,57 @@ var clear = ()=>{
 
     }
 }
+const clearBack=(s)=>{
+  if(s)ids.prev.style.display = "none";
+  else ids.prev.style.display = "";
+};
+const viewAdvance=(res,daynum)=>{
+  if(daynum ===1 || daynum<1)clearBack(true);
+  else clearBack(false);
+  ids.title.textContent = res[daynum].Day.ShortPhrase;
+  ids.date.textContent = res[daynum].Date.split("T")[0];
+  if(daynum===1){
+    ids.day.textContent = "";
+    ids.night.textContent = "";
+    ids.day.insertAdjacentHTML('beforeend',JSON.stringify(res[daynum-1].Day)); 
+    ids.night.insertAdjacentHTML('beforeend',JSON.stringify(res[daynum-1].Night));}
+    else if(daynum > 1) {
+      ids.day.textContent = JSON.stringify(res[daynum-1].Day);
+      ids.night.textContent = JSON.stringify(res[daynum-1].Night);
+    }
+    if(res[daynum-1].Day.Icon <=9)var icono = '0'+res[daynum-1].Day.Icon.toString();
+    ids.dicon.setAttribute("src",`https://developer.accuweather.com/sites/default/files/${icono}-s.png`);
+    ids.nicon.setAttribute("src",`https://developer.accuweather.com/sites/default/files/${res[daynum-1].Night.Icon}-s.png`);  
 
-const ids={
-    cityName:document.querySelector("#city-name"),
-    city:document.querySelector("#city"),
-    myForm:document.querySelector("#myForm"),
-    cityLoc:document.querySelector("#city-location"),
-    windSpeed:document.querySelector("#wind-speed"),
-    windDeg:document.querySelector("#wind-degree"),
-    humidity:document.querySelector("#humidity"),
-    time:document.querySelector("#time"),
-    dayNight:document.querySelector("#day-night"),
-    temp:document.querySelector("#temprature"),
-    vis:document.querySelector("#visibility"),
-    icon:document.querySelector(".icon"),
-    desc:document.querySelector("#desc"),
-    search:document.querySelector("#search"),
-    forecast:document.querySelector(".card")
-}
-const viewResult=(result)=>{
-   const main = result.data.main;
-   const data = result.data;
-   const coords = result.data.coord;
-    var t = parseInt(eval(main.temp +'- 273.15'));
-   ids.temp.textContent = t.toString()+'°C';
-   ids.vis.textContent = 'visibility-'+ data.visibility;
-   ids.windSpeed.textContent = 'wind speed-'+ data.wind.speed;
-   ids.cityLoc.textContent = 'longitute-'+coords.lon + 'latitude -'+coords.lat;
-   ids.humidity.textContent = 'humidity-'+main.humidity;
-  ids.icon.setAttribute('src','icons/'+data.weather[0].icon.toString()+'.png');
-   ids.desc.textContent =  data.weather[0].description.toUpperCase();
-   ids.city.textContent = data.name;
-   clear();
-}
-const viewAdvance=(res)=>{
-    var inject  = `<div class="card-header">
-    5 days forecaste will be here 
-  </div>
-  <div class="card-body">
-    <h5 class="card-title">Special title treatment</h5>
-    <p class="card-text">${res[0].Day.LongPhrase}</p>
-    <a href="#" class="btn btn-primary">Go somewhere</a>
-  </div>
-  <div class="card-footer text-muted">
-    ${res[0].Date}
-  </div>`;
-   ids.forecast.innerHTML = inject;
 };
 
 async function newResult(e) {
     e.preventDefault();
-     document.getElementById("loader").style.display = "block";
-    var city = ids.cityName.value;
+    var city = ids.city.value;
+    console.log(city);
     if(city==='' || city===null)alert('please enter city name');
     var s = new Search(city);
-    var result = await s.getBasicResults();
-    viewResult(result);
     var AdvancedResult = await s.getAdvanceResults();
-    viewAdvance(AdvancedResult);
+    viewAdvance(AdvancedResult,1);
     console.log(AdvancedResult);
-    
+    ids.next.addEventListener('click',()=>{
+      dayval=(dayval+1)%5;
+      if(dayval===0) dayval++;
+      console.log(dayval);
+      return viewAdvance(AdvancedResult,dayval);
+    });
+    ids.prev.addEventListener('click',()=>{
+      dayval=(dayval-1)%5;
+      if(dayval===0) dayval++;
+      console.log(dayval);
+       return viewAdvance(AdvancedResult,dayval);
+    });
 }
+
+
 ids.search.addEventListener('click',newResult);
-//window.onload = (e)=>{
-  // newResult(e);
-//}
+
+
+
 
 
