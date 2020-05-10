@@ -21,7 +21,9 @@ export default {
     date:document.querySelector("#dateandtime"),
     dicon:document.querySelector("#d-icon"),
     nicon:document.querySelector("#n-icon"),
-    datacard:document.querySelector(".card-body")
+    datacard:document.querySelector(".card-body"),
+    loader:document.querySelector(".lds-roller")
+
 
     
     

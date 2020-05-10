@@ -1,8 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" type="text/css" href="css/loader-style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-	<link rel="stylesheet" type="text/css" href="css/style.css">
+	
 	<link href="https://fonts.googleapis.com/css2?family=Julius+Sans+One&family=Montserrat:wght@100&family=Open+Sans&display=swap" rel="stylesheet">
 	<script src="https://kit.fontawesome.com/adbe6e941e.js" crossorigin="anonymous"></script>
 	<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"> 
@@ -14,18 +17,28 @@
 		 <div class="col-2"></div>
 		 <div class="col-8">
 		<div class="card text-center">
-			<div class="card-header">
-			  <input id="city" type="text" style="width: 60%; height: 20%; box-sizing: border-box;" class="search  py-6 px-6" placeholder="enter city name">
+			<div class="card-header bg-dark">
+			  <input id="city" type="text" style="width: 40%; height: 30%; display: inline-block;" class="search form-control" placeholder="enter city name">
                <button class="btn btn-info" id="search">search</button>
 			</div>
+			<div class="lds-roller" style="display: none;"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
 			<div class="card-body" style="display: none;">
 			  <h5 class="card-title">Special title treatment</h5>
+			  <div class="row">
+				  <div class="col-md-4"></div>
+				  <div class="col-md-4">
+					   <h6 > AirQuality -</h6>
+				       <h6 class="headline"></h6>
+				  </div>
+				  <div class="col-md-4"></div>
+			  </div>
+			   
 			   <div class="row">
 				 <div class="col-6" >Day
 					<div class="card container-fluid" style="width: auto;" >
 						<img src="" id="d-icon" class="card-img-top" style="width: 60% ; margin-left: 25%;" alt="...">
 						<div class="card-body">
-						  <h5 class="card-title">Card title</h5>
+						  <h5 class="card-title" id="title-day">card title</h5>
 						  <p class="card-text" id="day">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
 						  <a href="#" class="btn btn-primary">Go somewhere</a>
 						</div>
@@ -35,7 +48,7 @@
 					<div class="card container-fluid"  >
 						<img src="" id="n-icon" class="card-img-top" alt="..." style="width: 60%; margin-left: 25%;">
 						<div class="card-body">
-						  <h5 class="card-title">Card title</h5>
+						  <h5 class="card-title" id="title-night">Card title</h5>
 						  <p class="card-text" id="night">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
 						  <a href="#" class="btn btn-primary">Go somewhere</a>
 						</div>
@@ -45,7 +58,7 @@
 			   <button class="btn btn-success" id="prev">Back</button>
 			  <button class="btn btn-success" id="next">Next Day</button>
 			</div>
-			<div class="card-footer text-muted" id="dateandtime">
+			<div class="card-footer text-white bg-dark" id="dateandtime">
 			  2 days ago
 			</div>
 		  </div>
